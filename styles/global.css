@@ -1,0 +1,90 @@
+@import url(sideMenu.css);
+
+:root {
+    /* COLORS LIGHT MODE*/
+    --light: #68bbe3;
+    --medium: #0e86d4;
+    --dark: #055c9d;
+    --darker: #003060;
+    --darker-85: #00306085;
+    --white: #f2f2f2;
+
+    /* FONT */
+    --font: "Poppins", sans-serif;
+
+    /* FONT WEIGHT */
+    --regular: 400;
+    --bold: 700;
+}
+
+*,
+*:before,
+*:after {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    transition: background-color 200ms, color 200ms;
+}
+
+body {
+    font-family: var(--font);
+}
+
+ul {
+    list-style: none;
+}
+
+main {
+    /* overflow-y: scroll; */
+    height: calc(100vh - 100px);
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    width: calc(100vw - 350px);
+}
+
+.notFound {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    height: 200px;
+    margin: auto;
+}
+
+.notFound p {
+    font-size: 1rem;
+    font-weight: var(--regular);
+    margin-bottom: 1rem;
+    color: red;
+}
+
+.notFound h3 {
+    font-size: 2rem;
+    font-weight: var(--bold);
+    margin-bottom: 1rem;
+    color: var(--dark);
+}
+
+/* Estilizando a barra de rolagem */
+::-webkit-scrollbar {
+    width: 10px;
+}
+::-webkit-scrollbar-thumb {
+    background-color: var(--dm-medium);
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+::-webkit-scrollbar-track {
+    background-color: var(--white); 
+}
+
+@media screen and (max-width: 960px) {
+    .container {
+        width: 100vw;
+    }
+}
