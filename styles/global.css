@@ -27,6 +27,10 @@
 }
 
 body {
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: start;
+
     font-family: var(--font);
 }
 
@@ -37,6 +41,12 @@ ul {
 main {
     /* overflow-y: scroll; */
     height: calc(100vh - 100px);
+}
+
+h1 {
+    font-size: 4rem;
+    font-family: var(--font);
+    font-weight: var(--bold);
 }
 
 .container {
