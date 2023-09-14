@@ -34,17 +34,15 @@ body {
     flex-direction: row;
 }
 
-main {
-    background-color: blueviolet;
-}
-
 ul {
     list-style: none;
 }
 
 main {
-    /* overflow-y: scroll; */
-    height: calc(100vh - 100px);
+    height: 100vh;
+    width: 100%;
+    overflow-y: scroll;
+    scroll-behavior: smooth;
 }
 
 h1 {
@@ -56,6 +54,7 @@ h1 {
 .container {
     display: flex;
     flex-direction: column;
+
     width: calc(100vw - 350px);
 }
 

@@ -1,16 +1,14 @@
 .searchSection {
     height: 10rem;
+    width: 100%;
     padding: 2rem;
-
+    
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
     
-
-    background-color: aqua;
 }
-
 
 .titleSection--name {
     color: var(--dark);

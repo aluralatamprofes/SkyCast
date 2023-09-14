@@ -1,8 +1,8 @@
 .sideMenu {
-    position: fixed;
+    /* position: fixed;
     left: 0;
     top: 0;
-    
+     */
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
@@ -10,7 +10,7 @@
     gap: 1.5rem;
 
     width: 20rem;
-    height: 100%;
+    height: 100vh;
     
     transition: left 0.3s ease-in-out;
     background-color: var(--darker);
