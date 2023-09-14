@@ -1,31 +1,25 @@
 .sideMenu {
+    position: fixed;
+    left: 0;
+    top: 0;
+    
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: center;
-    gap: 4rem;
+    gap: 1.5rem;
 
-    padding: 2rem 0rem;
-    width: 26rem;
-    height: 100vh;
-    /* left: -100%; */
+    width: 20rem;
+    height: 100%;
     
     transition: left 0.3s ease-in-out;
-    
     background-color: var(--darker);
 }
 
-.credits{
-    text-transform: uppercase;
-    color: var(--medium);
-}
-
-.logo__container {
-    margin: 1rem auto;
-}
 
 .logo {
-    user-select: none;
+    margin: 2rem auto 0;
+
     width: 100%;
     max-width: 200px;
 }
@@ -34,10 +28,11 @@
     width: 100%;
 }
 
-.menu {
+.navBar-menu {
     display: flex;
     flex-direction: column;
     gap: 0.5rem;
+    
     font-size: 1.5rem;
 }
 
@@ -47,19 +42,24 @@
     width: 100%;
 }
 
-.menu, li {
-    user-select: none;
+.navBar-menu, li {
     cursor: pointer;
     padding: 1.5rem 0;
-
+    
     font-size: 1rem;
     font-weight: bold;
     text-align: center;
     text-transform: uppercase;
+    
     color: var(--medium);
 }
 
 
+.credits{
+    text-transform: uppercase;
+
+    color: var(--medium);
+}
 
 .btnClose {
     display: none;
@@ -72,7 +72,7 @@
     color: var(--white);
     font-size: 1.5rem;
 }
-
+/* 
 .menuOpen {
     left: 0;
 }
@@ -129,4 +129,4 @@
     footer {
         font-size: 0.4rem;
     }
-}
+} */
