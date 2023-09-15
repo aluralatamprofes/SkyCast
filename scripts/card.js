@@ -92,5 +92,21 @@ async function createWeatherCard(cityName) {
     }
 }
 
+// Função para lidar com a pesquisa quando o botão é clicado
+function handleSearch() {
+    const cityInput = document.getElementById('cityInput');
+    const cityName = cityInput.value.trim();
+    if (cityName) {
+        createWeatherCard(cityName);
+        cityInput.value = '';
+    }
+}
 
-createWeatherCard('São Paulo');
+// Adicione um evento de escuta para o botão de pesquisa
+const searchButton = document.getElementById('searchButton');
+searchButton.addEventListener('click', handleSearch);
+
+// createWeatherCard('São Paulo');
+// createWeatherCard('Santiago');
+// createWeatherCard('Rio de Janeiro');
+// createWeatherCard('Florianopolis');
