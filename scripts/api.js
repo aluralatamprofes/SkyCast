@@ -1,8 +1,11 @@
-const apiKey = "cba97dfcd3855f5d4abe4ee1027cc09f";
+const apiKey = "e87b741ac20eead7877c10d5d6d3b78d";
 // sp, es => idioma
 
-async function obtenerDatosClimaticos ( ciudad, idioma ) {
-    const url = `https://api.openweathermap.org/data/2.5/weather?q=${cidade}&appid=${apiKey}&lang=${idioma}`;
+
+async function obtenerDatosClimaticos ( ciudad ) {
+    const idioma = "sp, es"
+    const url = `https://api.openweathermap.org/data/2.5/weather?q=${ciudad}&appid=${apiKey}&lang=${idioma}`;
+    
     try {
         const response = await fetch( url );
         const dados = await response.json();
