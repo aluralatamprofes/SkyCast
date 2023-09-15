@@ -32,6 +32,7 @@
 }
 
 .cityName{
+    text-transform: capitalize;
     color: var(--white);
     
     font-weight: 700;

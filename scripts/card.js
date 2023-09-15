@@ -1,6 +1,9 @@
 // CREAR CARDS
 const apiKey = "e87b741ac20eead7877c10d5d6d3b78d";
 
+//GUARDAR VALOR DAS CIDADES CRIADAS
+const createdCities = [];
+
 // Função para obter dados climáticos da OpenWeather API
 async function fetchWeatherData(cityName) {
     const apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${cityName}&appid=${apiKey}&units=metric&lang=es`;
@@ -33,8 +36,16 @@ async function getAirQuality(lat, lon) {
 
 // Função para criar um novo cartão com dados climáticos e qualidade do ar
 async function createWeatherCard(cityName) {
+    const cityNameLower = cityName.toLowerCase();
+
+    // Verifique se a cidade já foi criada (sensível a maiúsculas e minúsculas)
+    if (createdCities.includes(cityNameLower || cityName)) {
+        return console.error(`${cityName} já foi criado.`);
+    }
+    createdCities.push(cityNameLower)
+    
     const cardContainer = document.querySelector('.card-container');
-    const weatherData = await fetchWeatherData(cityName);
+    const weatherData = await fetchWeatherData(cityNameLower);
 
     if (weatherData) {
         //CRIANDO A DIV DO CARD
@@ -48,7 +59,7 @@ async function createWeatherCard(cityName) {
             //NOME DA CIDADE
             const cityNameElement = document.createElement('h2');
             cityNameElement.classList.add('cityName')
-            cityNameElement.textContent = cityName;
+            cityNameElement.textContent = cityNameLower;
             
             //DESCRIÇÃO DO CLIMA
             const weatherDescriptionElement = document.createElement('p');
