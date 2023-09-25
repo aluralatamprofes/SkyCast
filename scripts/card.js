@@ -43,6 +43,7 @@ async function createWeatherCard(cityName) {
         return console.error(`${cityName} já foi criado.`);
     }
     createdCities.push(cityNameLower)
+    console.log(createdCities);
     
     const cardContainer = document.querySelector('.card-container');
     const weatherData = await fetchWeatherData(cityNameLower);
