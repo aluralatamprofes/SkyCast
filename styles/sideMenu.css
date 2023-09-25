@@ -24,11 +24,11 @@
     max-width: 200px;
 }
 
-.navBar {
+.form-wrapper{
     width: 100%;
 }
 
-.navBar-menu {
+.form-wrapper--menu {
     display: flex;
     flex-direction: column;
     gap: 0.5rem;
