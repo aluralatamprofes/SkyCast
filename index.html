@@ -26,9 +26,9 @@
                 <div class="menu-wrapper">
                     <p class="menu-title">Encuentra el clima de la ciudad:</p>
                     <form class="form-wrapper">
-                        <input placeholder="Ciudad..." type="text"/>
-                        <input placeholder="País..." type="text"/>
-                        <input type="button" value="Buscar"/>
+                        <input id="cityInput" placeholder="Ciudad..." type="text" required/>
+                        <input id="countryInput" placeholder="País..." type="text" required/>
+                        <input id="searchBtn" type="button" value="Buscar"/>
                     </form>
                 </div>
     
@@ -51,7 +51,7 @@
                 </div>
             </section>
 
-            <section class="card-container">
+            <section id="cards" class="card-container">
 
             </section>
         </main>

@@ -1,6 +1,6 @@
-const accessKey = '1b8ea7e355598334980366c7ab323021';
 
 async function getWeather(city) {
+    const accessKey = '1b8ea7e355598334980366c7ab323021';
     
     const baseUrl = `http://api.weatherstack.com/current?access_key=${accessKey}&query=${city}`;
 
@@ -38,12 +38,45 @@ async function getWeather(city) {
     }
 }
 
-// Ejemplo de uso
-const cityToQuery = 'London, United Kingdom'; // Reemplaza con la ciudad deseada
+function capitalizeWords(inputString) {
 
-getWeather(cityToQuery)
-    .then((weatherData) => {
-        console.log('Datos del clima:', weatherData);
-    }).catch((error) => {
-        console.error(error.message);
-});
+    return inputString.replace(/\b\w/g, (match) => match.toUpperCase());
+}
+
+async function searchWeather() {
+    const cityInput = document.getElementById('cityInput').value;
+    const countryInput = document.getElementById('countryInput').value;
+
+
+    if (cityInput && countryInput) {
+        // Capitaliza la primera letra de cada palabra en los valores ingresados
+        const capitalizedCity = capitalizeWords(cityInput);
+        const capitalizedCountry = capitalizeWords(countryInput);
+        const cityToQuery = `${capitalizedCity}, ${capitalizedCountry}`;
+        console.log(cityToQuery);
+        
+        try {
+            const weatherData = await getWeather(cityToQuery);
+
+            // Muestra los resultados en la pantalla
+            const resultadosDiv = document.getElementById('cards');
+            resultadosDiv.innerHTML = `
+                <h2>${weatherData.city}</h2>
+                <p>Temperatura: ${weatherData.temperature}°C</p>
+                <p>Descripción: ${weatherData.description}</p>
+                <img src="${weatherData.icon}" alt="Ícono del clima">
+            `;
+
+        } catch (error) {
+            console.error(error.message);
+        }
+    } else {
+        console.error('Por favor, ingrese una ciudad y un país.');
+    }
+}
+
+// Obtiene el botón de búsqueda por su ID
+const searchButton = document.getElementById('searchBtn');
+
+// Agrega un event listener para el clic en el botón
+searchButton.addEventListener('click', searchWeather);
