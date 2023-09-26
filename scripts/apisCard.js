@@ -38,10 +38,6 @@ async function getWeather(city) {
     }
 }
 
-function capitalizeWords(inputString) {
-
-    return inputString.replace(/\b\w/g, (match) => match.toUpperCase());
-}
 
 async function searchWeather() {
     const cityInput = document.getElementById('cityInput').value;
@@ -49,10 +45,8 @@ async function searchWeather() {
 
 
     if (cityInput && countryInput) {
-        // Capitaliza la primera letra de cada palabra en los valores ingresados
-        const capitalizedCity = capitalizeWords(cityInput);
-        const capitalizedCountry = capitalizeWords(countryInput);
-        const cityToQuery = `${capitalizedCity}, ${capitalizedCountry}`;
+
+        const cityToQuery = `${cityInput}, ${countryInput}`;
         console.log(cityToQuery);
         
         try {
