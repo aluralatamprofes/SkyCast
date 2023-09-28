@@ -29,6 +29,7 @@ async function getAirQuality(lat, lon) {
         if (airQuality.list[0].main.aqi === 3) return "Regular";
         if (airQuality.list[0].main.aqi === 4) return "Mala";
         if (airQuality.list[0].main.aqi === 5) return "Péssimo";
+
     } catch (error) {
         console.log(error.message);
     }

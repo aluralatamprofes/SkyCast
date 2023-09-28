@@ -51,6 +51,10 @@ h1 {
     font-weight: var(--bold);
 }
 
+button {
+    cursor: pointer;
+}
+
 .container {
     display: flex;
     flex-direction: column;

@@ -24,36 +24,67 @@
     max-width: 200px;
 }
 
-.navBar {
+.form-wrapper {
     width: 100%;
-}
-
-.navBar-menu {
     display: flex;
     flex-direction: column;
-    gap: 0.5rem;
+    gap: 1rem;
     
-    font-size: 1.5rem;
+    padding: 1.5rem;
 }
 
-.target {
-    background-color: var(--medium);
-    color: var(--white);
-    width: 100%;
-}
-
-.navBar-menu, li {
-    cursor: pointer;
-    padding: 1.5rem 0;
-    
+.form-title {
     font-size: 1rem;
-    font-weight: bold;
+
     text-align: center;
     text-transform: uppercase;
     
-    color: var(--medium);
+    color: var(--white);
+
 }
 
+.form-wrapper > input {
+    text-transform: uppercase;
+
+    font-weight: bolder;
+    font-family: Poppins;
+    
+    border-radius: 10px;
+    border: 0 ;
+    padding: 1rem;
+
+}
+
+
+.form-text{
+    color: var(--white);
+    background-color: var(--medium);
+    
+    font-weight: 700;
+}
+
+.form-text::-webkit-input-placeholder {
+    text-transform: uppercase;
+    
+    color: var(--light);
+}
+
+.form-submit {
+    background-color: var(--light);
+    color:var(--darker);
+    cursor: pointer;
+
+    transition: ease-in-out 200ms;
+
+}
+
+.form-submit:hover{
+    box-shadow: -8px 10px 13px 0px rgba(0,0,0,0.44);
+    -webkit-box-shadow: -8px 10px 13px 0px rgba(0,0,0,0.44);
+    -moz-box-shadow: -8px 10px 13px 0px rgba(0,0,0,0.44);
+
+    color: black;
+}
 
 .credits{
     text-transform: uppercase;
