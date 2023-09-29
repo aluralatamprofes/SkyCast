@@ -7,8 +7,10 @@
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
-    
 }
+
+/* Title */
+
 
 .titleSection--name {
     color: var(--dark);
@@ -18,6 +20,8 @@
     color: var(--medium);
     font-size: 1.3rem;
     font-weight: var(--bold);
+
+    padding:0 .7rem;
 }
 
 /* Search Bar */
@@ -26,6 +30,11 @@
     align-items: center; 
 
     border-bottom: 4px solid#BABABA;
+}
+
+#searchButton {
+    border: 0 none;
+    background-color: transparent;
 }
 
 .searchBar-icon {
