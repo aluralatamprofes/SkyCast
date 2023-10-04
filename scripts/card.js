@@ -1,22 +1,32 @@
 // CREAR CARDS
 const apiKey = "e87b741ac20eead7877c10d5d6d3b78d";
 
-//GUARDAR VALOR DAS CIDADES CRIADAS
+//GUARDAR VALOR DE LAS CIUDADES CREADAS
 const createdCities = [];
 
-// Função para obter dados climáticos da OpenWeather API
+// OBTENER DADOS CLIMATICOS
 async function fetchWeatherData(cityName) {
     const apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${cityName}&appid=${apiKey}&units=metric&lang=es`;
 
     try {
         const response = await fetch(apiUrl);
-        return await response.json();
+        const data = await response.json();
+
+        // VERIFICANDO EL STATUS DE LA RESPUESTA
+        if (response.ok) {
+            return data
+        } else {
+            // SI LA RESPUSTA !ok, LANZA UN ERROR QUE SERA CAPTURADO EN EL CATCH
+            throw new Error(`Erro ao buscar dados da API: ${data.message}`);
+        }
+
     } catch (error) {
         console.error('Erro ao buscar dados da API:', error);
+        return null; // Retorna null em caso de erro
     }
 }
 
-// Função para obter qualidade do ar
+// OBTENER DADOS LA QUALIDAD DEL AIRE
 async function getAirQuality(lat, lon) {
     try {
         const url = `https://api.openweathermap.org/data/2.5/air_pollution?lat=${lat}&lon=${lon}&appid=${apiKey}`;
@@ -42,12 +52,20 @@ async function createWeatherCard(cityName) {
     // Verifique se a cidade já foi criada (sensível a maiúsculas e minúsculas)
     if (createdCities.includes(cityNameLower || cityName)) {
         return console.error(`${cityName} já foi criado.`);
+    } 
+
+    // OBTIENE DOS DADOS CLIMÁTICOS
+    const weatherData = await fetchWeatherData(cityNameLower);
+    console.log(weatherData);
+    if (weatherData === null) {
+        // SI LOS DADOS SON === null, NO RETORNARA NADA
+        return 
     }
+
     createdCities.push(cityNameLower)
-    console.log(createdCities);
+    // console.log(createdCities);
     
     const cardContainer = document.querySelector('.card-container');
-    const weatherData = await fetchWeatherData(cityNameLower);
 
     if (weatherData) {
         //CRIANDO A DIV DO CARD
@@ -99,14 +117,16 @@ async function createWeatherCard(cityName) {
                 tempWrapper.appendChild(minTemperatureElement);
                 tempWrapper.appendChild(maxTemperatureElement);
 
-        // card.appendChild(airQualityElement);
+        card.appendChild(airQualityElement);
 
         cardContainer.appendChild(card);
     }
 }
 
 // Função para lidar com a pesquisa quando o botão é clicado
-function handleSearch() {
+function handleSearch(event) {
+    event.preventDefault(); // Evita que o formulário seja enviado, que é o comportamento padrão
+
     const cityInput = document.getElementById('cityInput');
     const cityName = cityInput.value.trim();
     if (cityName) {
@@ -116,9 +136,24 @@ function handleSearch() {
 }
 
 // Adicione um evento de escuta para o botão de pesquisa
-const searchButton = document.getElementById('searchButton');
+const searchButton = document.getElementById('submitButton');
 searchButton.addEventListener('click', handleSearch);
 
+
+function handleSearchBar(event) {
+
+
+}
+
+
+
+
+
+
+
+// Adicione um evento de escuta para o evento "submit" da barra de pesquisa
+const searchBarForm = document.querySelector('.searchBar-container'); // Seleciona o formulário pela classe
+searchBarForm.addEventListener('submit', handleSearchBar); // Usa o evento "submit"
 // createWeatherCard('São Paulo');
 // createWeatherCard('Santiago');
 // createWeatherCard('Rio de Janeiro');
