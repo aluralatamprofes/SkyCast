@@ -53,10 +53,14 @@
 
 .temp-wrapper {
     display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
     gap: 1rem;
     
+}
+
+.temp-wrapper > p {
     color: var(--white);
     font-weight: 200;
     font-size: 0.8rem;
-
 }

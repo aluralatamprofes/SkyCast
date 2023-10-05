@@ -17,11 +17,10 @@ async function fetchWeatherData(cityName) {
             return data
         } else {
             // SI LA RESPUSTA !ok, LANZA UN ERROR QUE SERA CAPTURADO EN EL CATCH
-            throw new Error(`Erro ao buscar dados da API: ${data.message}`);
+            throw new Error(`Error al buscar dados de la API: ${data.message}`);
         }
-
     } catch (error) {
-        console.error('Erro ao buscar dados da API:', error);
+        console.error('Error al buscar dados de la API:', error);
         return null; // Retorna null em caso de erro
     }
 }
@@ -45,116 +44,131 @@ async function getAirQuality(lat, lon) {
     }
 }
 
+
+// Função para lidar com a pesquisa quando o botão é clicado
+function handleInputCity(event) {
+    event.preventDefault(); 
+
+    const cityInput = document.getElementById('cityInput');
+    const cityName = cityInput.value.trim();
+
+    if (cityName) {
+        verificationCity(cityName);
+        cityInput.value = '';
+    }
+}
+
+
+const verificationCity = (cityName) => {
+    const  cityNameLowerCase= cityName.toLowerCase();
+    
+    // Verifique se a cidade já foi criada (sensível a maiúsculas e minúsculas)
+    // createdCities.forEach((city, index) => {
+    //     console.log(city[index].name);
+        // if (city[index].name.includes( || cityName)) {
+        //     return console.error(`${cityName} ya fue creado`);
+        // } 
+    // })
+
+    return createWeatherCard(cityNameLowerCase)
+} 
+
 // Função para criar um novo cartão com dados climáticos e qualidade do ar
 async function createWeatherCard(cityName) {
-    const cityNameLower = cityName.toLowerCase();
+    const weatherData = await fetchWeatherData(cityName);
 
-    // Verifique se a cidade já foi criada (sensível a maiúsculas e minúsculas)
-    if (createdCities.includes(cityNameLower || cityName)) {
-        return console.error(`${cityName} já foi criado.`);
-    } 
-
-    // OBTIENE DOS DADOS CLIMÁTICOS
-    const weatherData = await fetchWeatherData(cityNameLower);
-    console.log(weatherData);
     if (weatherData === null) {
-        // SI LOS DADOS SON === null, NO RETORNARA NADA
-        return 
+        console.error(`${cityName} no fue encontrado`);
+        return;
     }
 
-    createdCities.push(cityNameLower)
-    // console.log(createdCities);
-    
-    const cardContainer = document.querySelector('.card-container');
+    createdCities.push(weatherData);
 
-    if (weatherData) {
-        //CRIANDO A DIV DO CARD
+    // Seleção de elementos fora do loop
+    const cardContainer = document.querySelector('.card-container');
+    
+    //loop "for...of" é usado para garantir que as operações assíncronas sejam tratadas corretamente.
+    for (const data of createdCities) {
+
         const card = document.createElement('div');
         card.classList.add('card');
+        
+        const infoWrapper = document.createElement('div');
+        infoWrapper.classList.add('info-wrapper');
 
-        //DIV DAS INFOS RESUMIDAS
-        const infoWrapper = document.createElement('div')
-        infoWrapper.classList.add('info-wrapper')
+        const iconWrapper = document.createElement('div');
+        iconWrapper.classList.add('icon-wrapper');
 
-            //NOME DA CIDADE
-            const cityNameElement = document.createElement('h2');
-            cityNameElement.classList.add('cityName')
-            cityNameElement.textContent = cityNameLower;
-            
-            //DESCRIÇÃO DO CLIMA
-            const weatherDescriptionElement = document.createElement('p');
-            weatherDescriptionElement.classList.add('weatherDescription')
-            weatherDescriptionElement.textContent = `${weatherData.weather[0].description}`;
-            
-            //VALOR DA TEMPERATURA 
-            const temperatureElement = document.createElement('p');
-            temperatureElement.classList.add('temperature')
-            temperatureElement.textContent = `${weatherData.main.temp} °C`;
-
-            //DIV DAS TEMP MIN E MAX
-            const tempWrapper = document.createElement('div')        
-            tempWrapper.classList.add('temp-wrapper')
-
-                    const minTemperatureElement = document.createElement('p');
-                    minTemperatureElement.textContent = `MIN ${weatherData.main.temp_min} °C`;
-
-                    const maxTemperatureElement = document.createElement('p');
-                    maxTemperatureElement.textContent = `MAX ${weatherData.main.temp_max} °C`;
-
-            
+        // Criar o elemento img para o ícone do clima
+        const weatherIconElement = document.createElement('img');
+        const iconCode = data.weather[0].icon;
+        const iconUrl = `http://openweathermap.org/img/w/${iconCode}.png`;
+        weatherIconElement.src = iconUrl;
+        weatherIconElement.alt = 'Ícone do clima';
 
 
-        // Obtenha a qualidade do ar
-        const airQuality = await getAirQuality(weatherData.coord.lat, weatherData.coord.lon);
+        const cityNameElement = document.createElement('h2');
+        cityNameElement.classList.add('cityName');
+        cityNameElement.textContent = data.name;
+
+        const weatherDescriptionElement = document.createElement('p');
+        weatherDescriptionElement.classList.add('weatherDescription');
+        weatherDescriptionElement.textContent = `${data.weather[0].description}`;
+
+        const temperatureElement = document.createElement('p');
+        temperatureElement.classList.add('temperature');
+        temperatureElement.textContent = `${data.main.temp} °C`;
+
+        const tempWrapper = document.createElement('div');
+        tempWrapper.classList.add('temp-wrapper');
+
+        const minTemperatureElement = document.createElement('p');
+        minTemperatureElement.textContent = `MIN ${data.main.temp_min} °C`;
+
+        const maxTemperatureElement = document.createElement('p');
+        maxTemperatureElement.textContent = `MAX ${data.main.temp_max} °C`;
+
+        const airQuality = await getAirQuality(data.coord.lat, data.coord.lon);
+        console.log("Qualidadee do ar:", airQuality);
+        
         const airQualityElement = document.createElement('p');
         airQualityElement.textContent = `Calidad del aire: ${airQuality}`;
+        
+        iconWrapper.appendChild(weatherIconElement)
+        
+        infoWrapper.appendChild(cityNameElement);
+        infoWrapper.appendChild(weatherDescriptionElement);
+        infoWrapper.appendChild(temperatureElement);
+        infoWrapper.appendChild(tempWrapper);
+        
+        tempWrapper.appendChild(minTemperatureElement);
+        tempWrapper.appendChild(maxTemperatureElement);
 
+        card.appendChild(iconWrapper);
         card.appendChild(infoWrapper);
-            infoWrapper.appendChild(cityNameElement);
-            infoWrapper.appendChild(weatherDescriptionElement);
-            infoWrapper.appendChild(temperatureElement);
-            infoWrapper.appendChild(tempWrapper);
-                tempWrapper.appendChild(minTemperatureElement);
-                tempWrapper.appendChild(maxTemperatureElement);
-
         card.appendChild(airQualityElement);
 
         cardContainer.appendChild(card);
     }
 }
 
-// Função para lidar com a pesquisa quando o botão é clicado
-function handleSearch(event) {
-    event.preventDefault(); // Evita que o formulário seja enviado, que é o comportamento padrão
 
-    const cityInput = document.getElementById('cityInput');
-    const cityName = cityInput.value.trim();
-    if (cityName) {
-        createWeatherCard(cityName);
-        cityInput.value = '';
-    }
-}
+
+
+
+// function handleSearchBar(event) {
+
+
+// }
+
+
+
+
 
 // Adicione um evento de escuta para o botão de pesquisa
 const searchButton = document.getElementById('submitButton');
-searchButton.addEventListener('click', handleSearch);
-
-
-function handleSearchBar(event) {
-
-
-}
-
-
-
-
-
-
+searchButton.addEventListener('click', handleInputCity);
 
 // Adicione um evento de escuta para o evento "submit" da barra de pesquisa
 const searchBarForm = document.querySelector('.searchBar-container'); // Seleciona o formulário pela classe
-searchBarForm.addEventListener('submit', handleSearchBar); // Usa o evento "submit"
-// createWeatherCard('São Paulo');
-// createWeatherCard('Santiago');
-// createWeatherCard('Rio de Janeiro');
-// createWeatherCard('Florianopolis');
+// searchBarForm.addEventListener('submit', handleSearchBar); // Usa o evento "submit"
