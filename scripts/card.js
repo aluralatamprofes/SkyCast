@@ -59,28 +59,28 @@ function handleInputCity(event) {
 }
 
 
-const verificationCity = (cityName) => {
-    const  cityNameLowerCase= cityName.toLowerCase();
+const verificationCity = async (cityName) => {
     
-    // Verifique se a cidade já foi criada (sensível a maiúsculas e minúsculas)
-    // createdCities.forEach((city, index) => {
-    //     console.log(city[index].name);
-        // if (city[index].name.includes( || cityName)) {
-        //     return console.error(`${cityName} ya fue creado`);
-        // } 
-    // })
-
-    return createWeatherCard(cityNameLowerCase)
-} 
-
-// Função para criar um novo cartão com dados climáticos e qualidade do ar
-async function createWeatherCard(cityName) {
     const weatherData = await fetchWeatherData(cityName);
 
     if (weatherData === null) {
         console.error(`${cityName} no fue encontrado`);
         return;
     }
+
+    // Verificar se a cidade já foi criada usando o ID da cidade
+    const cityId = weatherData.id;
+
+    if (createdCities.some(city => city.id === cityId)) {
+        console.log(`A cidade com ID ${cityId} já foi adicionada.`);
+        return;
+    }
+    
+    return createWeatherCard(weatherData)
+} 
+
+// Função para criar um novo cartão com dados climáticos e qualidade do ar
+async function createWeatherCard(weatherData) {
 
     createdCities.push(weatherData);
 
@@ -92,7 +92,7 @@ async function createWeatherCard(cityName) {
 
         const card = document.createElement('div');
         card.classList.add('card');
-        
+
         const infoWrapper = document.createElement('div');
         infoWrapper.classList.add('info-wrapper');
 
