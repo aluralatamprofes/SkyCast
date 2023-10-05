@@ -87,6 +87,7 @@ async function createWeatherCard(weatherData) {
     // Seleção de elementos fora do loop
     const cardContainer = document.querySelector('.card-container');
     
+    cardContainer.innerHTML = '';
     //loop "for...of" é usado para garantir que as operações assíncronas sejam tratadas corretamente.
     for (const data of createdCities) {
 
