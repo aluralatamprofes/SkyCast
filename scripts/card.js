@@ -90,15 +90,32 @@ async function createWeatherCard(weatherData) {
     cardContainer.innerHTML = '';
     //loop "for...of" é usado para garantir que as operações assíncronas sejam tratadas corretamente.
     for (const data of createdCities) {
-
+        console.log(data);
         const card = document.createElement('div');
         card.classList.add('card');
+        
+        const wrapperLeft = document.createElement('div');
+        wrapperLeft.classList.add('wrapper-left');
 
         const infoWrapper = document.createElement('div');
         infoWrapper.classList.add('info-wrapper');
-
         
-        // Criar o elemento img para o ícone do clima
+        const detailsWrapper = document.createElement('div')
+        detailsWrapper.classList.add('details-wrapper');
+        
+        const airQualityWrapper = document.createElement('div')
+        airQualityWrapper.classList.add('details-element');
+
+        const feelsLikeWrapper = document.createElement('div')
+        feelsLikeWrapper.classList.add('details-element');
+
+        const windWrapper = document.createElement('div')
+        windWrapper.classList.add('details-element');
+
+        const visibilityWrapper = document.createElement('div')
+        visibilityWrapper.classList.add('details-element');
+        
+        // ICONO DEL CLIMA
         const iconWrapper = document.createElement('div');
         iconWrapper.classList.add('icon-wrapper');
 
@@ -106,11 +123,12 @@ async function createWeatherCard(weatherData) {
         weatherIconElement.classList.add('icon');
 
         const iconCode = data.weather[0].icon;
-        const iconUrl = `http://openweathermap.org/img/w/${iconCode}.png`;
+        const iconUrl = `http://openweathermap.org/img/wn/${iconCode}@4x.png`;
 
         weatherIconElement.src = iconUrl;
         weatherIconElement.alt = 'Ícone do clima';
 
+        //  ELEMENTOS DE TEXTO WRAPPER 1
         const cityNameElement = document.createElement('h2');
         cityNameElement.classList.add('cityName');
         cityNameElement.textContent = data.name;
@@ -122,20 +140,36 @@ async function createWeatherCard(weatherData) {
         const temperatureElement = document.createElement('p');
         temperatureElement.classList.add('temperature');
         temperatureElement.textContent = `${data.main.temp} °C`;
-
+        
         const tempWrapper = document.createElement('div');
         tempWrapper.classList.add('temp-wrapper');
-
+        
         const minTemperatureElement = document.createElement('p');
         minTemperatureElement.textContent = `MIN ${data.main.temp_min} °C`;
-
+        
         const maxTemperatureElement = document.createElement('p');
         maxTemperatureElement.textContent = `MAX ${data.main.temp_max} °C`;
+        
+        
+        //  ELEMENTOS DE TEXTO WRAPPER 2
+
+        const feelsLike = document.createElement('p');
+        const feelsLikeData = `${data.main.feels_like}`;
+        feelsLike.textContent = `Sensación Térmica`;
+
+        const wind = document.createElement('p');
+        const windData = `${data.wind.speed} km/h`;
+        wind.textContent = "Viento";
 
         const airQuality = await getAirQuality(data.coord.lat, data.coord.lon);
-        
+
         const airQualityElement = document.createElement('p');
-        airQualityElement.textContent = `Calidad del aire: ${airQuality}`;
+        const airQualityData= `${airQuality}`;
+        airQualityElement.textContent = `Calidad del aire`;
+
+        const visibility = document.createElement('p');
+        const visibilityData = `${data.visibility} km`;
+        visibility.textContent = `Visibilidad`;
         
         iconWrapper.appendChild(weatherIconElement)
         
@@ -147,9 +181,21 @@ async function createWeatherCard(weatherData) {
         tempWrapper.appendChild(minTemperatureElement);
         tempWrapper.appendChild(maxTemperatureElement);
 
-        card.appendChild(iconWrapper);
-        card.appendChild(infoWrapper);
-        card.appendChild(airQualityElement);
+        feelsLikeWrapper.append(feelsLike, feelsLikeData);
+        windWrapper.append(wind, windData);
+        airQualityWrapper.append(airQualityElement, airQualityData);
+        visibilityWrapper.append(visibility, visibilityData);
+
+        detailsWrapper.appendChild(feelsLikeWrapper);
+        detailsWrapper.appendChild(windWrapper);
+        detailsWrapper.appendChild(airQualityWrapper);
+        detailsWrapper.appendChild(visibilityWrapper);
+
+        wrapperLeft.appendChild(iconWrapper);
+        wrapperLeft.appendChild(infoWrapper);
+        
+        card.appendChild(wrapperLeft);
+        card.appendChild(detailsWrapper);
 
         cardContainer.appendChild(card);
     }
