@@ -86,7 +86,7 @@ async function createWeatherCard(weatherData) {
 
     // Seleção de elementos fora do loop
     const cardContainer = document.querySelector('.card-container');
-    
+
     cardContainer.innerHTML = '';
     //loop "for...of" é usado para garantir que as operações assíncronas sejam tratadas corretamente.
     for (const data of createdCities) {
@@ -97,16 +97,19 @@ async function createWeatherCard(weatherData) {
         const infoWrapper = document.createElement('div');
         infoWrapper.classList.add('info-wrapper');
 
+        
+        // Criar o elemento img para o ícone do clima
         const iconWrapper = document.createElement('div');
         iconWrapper.classList.add('icon-wrapper');
 
-        // Criar o elemento img para o ícone do clima
-        const weatherIconElement = document.createElement('img');
+        const weatherIconElement = document.createElement('img')
+        weatherIconElement.classList.add('icon');
+
         const iconCode = data.weather[0].icon;
         const iconUrl = `http://openweathermap.org/img/w/${iconCode}.png`;
+
         weatherIconElement.src = iconUrl;
         weatherIconElement.alt = 'Ícone do clima';
-
 
         const cityNameElement = document.createElement('h2');
         cityNameElement.classList.add('cityName');
@@ -130,7 +133,6 @@ async function createWeatherCard(weatherData) {
         maxTemperatureElement.textContent = `MAX ${data.main.temp_max} °C`;
 
         const airQuality = await getAirQuality(data.coord.lat, data.coord.lon);
-        console.log("Qualidadee do ar:", airQuality);
         
         const airQualityElement = document.createElement('p');
         airQualityElement.textContent = `Calidad del aire: ${airQuality}`;
@@ -153,23 +155,9 @@ async function createWeatherCard(weatherData) {
     }
 }
 
-
-
-
-
-// function handleSearchBar(event) {
-
-
-// }
-
-
-
-
-
 // Adicione um evento de escuta para o botão de pesquisa
-const searchButton = document.getElementById('submitButton');
-searchButton.addEventListener('click', handleInputCity);
+const submitButton = document.getElementById('submitButton');
+submitButton.addEventListener('click', handleInputCity);
 
-// Adicione um evento de escuta para o evento "submit" da barra de pesquisa
-const searchBarForm = document.querySelector('.searchBar-container'); // Seleciona o formulário pela classe
-// searchBarForm.addEventListener('submit', handleSearchBar); // Usa o evento "submit"
+export { createWeatherCard, createdCities };
+
