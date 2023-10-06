@@ -2,17 +2,15 @@
 const apiKey = "e87b741ac20eead7877c10d5d6d3b78d";
 
 //GUARDAR VALOR DE LAS CIUDADES CREADAS
-const createdCities = JSON.parse(localStorage.getItem("createdCities"));
-
-if (createdCities === undefined) {
-    createdCities = [];
-}
-
-console.log(createdCities);
+let createdCities = JSON.parse(localStorage.getItem("createdCities"));
 const cardContainer = document.querySelector('.card-container');
 
+if(createdCities === null) {
+    createdCities = [];
+}
+ 
 window.onload = async () => {
-    if(createdCities.length != 0) {
+    if(createdCities !== undefined) {
         for (const data of createdCities) {
             displayCard(await createCard(data));
          }
