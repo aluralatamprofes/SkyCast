@@ -1,22 +1,27 @@
-import { createdCities, createWeatherCard } from "./card";
+import { createdCities, createCard, displayCard } from "./card.js";
+const searchBarForm = document.getElementById('searchForm');
+const cardContainer = document.querySelector('.card-container');
 
 function handleSearchBar(event) {
     event.preventDefault();
 
-    const searchInput = document.getElementById('searchInput');
+    const searchInput = document.getElementById('searchCity');
     const searchTerm = searchInput.value.trim();
 
     filterCities(searchTerm);
     searchInput.value = ''; // Limpa o campo de pesquisa após a pesquisa
 }
 
-function filterCities(searchTerm) {
+async function filterCities(searchTerm) {
     const filteredCities = createdCities.filter(city => {
-        return city.name.toLowerCase().includes(searchTerm.toLowerCase());
+        return city.name.toLowerCase() === searchTerm.toLowerCase();
     });
 
-    createWeatherCard(filteredCities);
+    console.log(searchTerm.toLowerCase());
+    // console.log(createdCities);
+    console.log(filteredCities);
+    cardContainer.innerHTML = "";
+    displayCard(await createCard(filteredCities[0]));
 }
 
-const searchBarForm = document.getElementById('searchForm');
 searchBarForm.addEventListener('submit', handleSearchBar);
