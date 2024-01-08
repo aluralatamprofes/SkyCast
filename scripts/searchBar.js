@@ -1,27 +1,27 @@
-import { createdCities, createCard, displayCard } from "./card.js";
-const searchBarForm = document.getElementById('searchForm');
-const cardContainer = document.querySelector('.card-container');
+import { createCard, displayCard } from './card.js';
+const searchBarForm = document.getElementById( 'searchForm' );
+const cardContainer = document.querySelector( '.card-container' );
 
-function handleSearchBar(event) {
+function handleSearchBar ( event ) {
     event.preventDefault();
 
-    const searchInput = document.getElementById('searchCity');
+    const searchInput = document.getElementById( 'searchCity' );
     const searchTerm = searchInput.value.trim();
 
-    filterCities(searchTerm);
+    filterCities( searchTerm );
     searchInput.value = ''; // Limpa o campo de pesquisa após a pesquisa
 }
 
-async function filterCities(searchTerm) {
-    const filteredCities = createdCities.filter(city => {
+async function filterCities ( searchTerm ) {
+    const filteredCities = createdCities.filter( city => {
         return city.name.toLowerCase() === searchTerm.toLowerCase();
-    });
+    } );
 
-    console.log(searchTerm.toLowerCase());
+    console.log( searchTerm.toLowerCase() );
     // console.log(createdCities);
-    console.log(filteredCities);
+    console.log( filteredCities );
     cardContainer.innerHTML = "";
-    displayCard(await createCard(filteredCities[0]));
+    displayCard( await createCard( filteredCities[ 0 ] ) );
 }
 
-searchBarForm.addEventListener('submit', handleSearchBar);
+searchBarForm.addEventListener( 'submit', handleSearchBar );
