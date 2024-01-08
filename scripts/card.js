@@ -1,47 +1,58 @@
-// CREAR CARDS
+// Paso 1: CREAR VARIABLES DE VALORES
 const apiKey = "e87b741ac20eead7877c10d5d6d3b78d";
 const dataBase = "http://localhost:3000/createdCities";
 const cardContainer = document.querySelector( '.card-container' );
 
-// OBTENER DADOS CLIMATICOS
+
+// OBTENER DATOS CLIMÁTICOS
+// Paso 2: OBTENER DATOS CLIMÁTICOS
 async function fetchWeatherData ( cityName ) {
+    // Construir la URL de la API para obtener datos climáticos
     const apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${cityName}&appid=${apiKey}&units=metric&lang=es`;
 
     try {
+        // Realizar la solicitud a la API y esperar la respuesta
         const response = await fetch( apiUrl );
         const data = await response.json();
 
+        // Paso 3: Verificar si la respuesta es exitosa
         if ( response.ok ) {
             return data;
         } else {
+            // En caso de error, lanzar una excepción con el mensaje de error
             throw new Error( `Error al buscar datos de la API: ${data.message}` );
         }
     } catch ( error ) {
+        // Paso 4: Capturar errores y mostrarlos en la consola
         console.error( 'Error al buscar datos de la API:', error );
         return null;
     }
 }
 
-// Função para obter qualidade do ar
+// Paso 5: OBTENER DATOS DE LA CALIDAD DEL AIRE
 async function getAirQuality ( lat, lon ) {
     try {
+        // Construir la URL de la API para obtener datos de calidad del aire
         const url = `https://api.openweathermap.org/data/2.5/air_pollution?lat=${lat}&lon=${lon}&appid=${apiKey}`;
+        // Realizar la solicitud a la API y esperar la respuesta
         const request = await fetch( url );
         const airQuality = await request.json();
 
+        // Paso 6: Verificar si la lista de calidad del aire está vacía
         if ( airQuality.list.length === 0 ) return "No se puede obtener la calidad del aire";
-        const aqi = airQuality.list[ 0 ].main.aqi;
 
-        // Mapear os níveis de AQI para descrições
+        // Paso 7: Obtener el índice de calidad del aire (AQI) y asignar una descripción en base a los niveles estándar
+        const aqi = airQuality.list[ 0 ].main.aqi;
         const aqiDescriptions = [ "", "Excelente", "Buena", "Regular", "Mala", "Péssimo" ];
         return aqiDescriptions[ aqi ];
     } catch ( error ) {
-        console.error( error.message );
+        // Paso 8: Capturar errores y mostrarlos en la consola
+        console.log( error.message );
         return "No se puede obtener la calidad del aire";
     }
 }
 
-// Função para criar um card
+// Paso 9: Función para crear una tarjeta
 async function createCard ( data ) {
     const card = document.createElement( 'div' );
     card.classList.add( 'card' );
@@ -152,12 +163,12 @@ async function createCard ( data ) {
     return card;
 }
 
-// Função para exibir um card no DOM
+// Paso 10: Función para mostrar una tarjeta en el DOM
 function displayCard ( card ) {
     cardContainer.appendChild( card );
 }
 
-// Função para obter e exibir todas as cidades
+// Paso 11: Función para obtener y mostrar todas las ciudades
 async function fetchAndDisplayCities () {
     try {
         const response = await fetch( dataBase );
@@ -172,20 +183,22 @@ async function fetchAndDisplayCities () {
     }
 }
 
-/// Função principal para lidar com a entrada da cidade
+// Paso 12: Función principal para manejar la entrada de la ciudad
 async function handleInputCity ( event ) {
     event.preventDefault();
 
     const cityInput = document.getElementById( 'cityInput' );
     const cityName = cityInput.value.trim();
 
+    // Paso 13: Verificar si la ciudad tiene un nombre válido
     if ( cityName ) {
+        // Paso 14: Realizar la verificación y mostrar la información de la ciudad
         await verificationCity( cityName );
         cityInput.value = '';
     }
 }
 
-// Função para verificar a cidade e adicionar ao banco de dados
+// Paso 15: Función para verificar la ciudad y agregarla a la base de datos
 async function verificationCity ( cityName ) {
     const weatherData = await fetchWeatherData( cityName );
 
@@ -211,7 +224,7 @@ async function verificationCity ( cityName ) {
     }
 }
 
-// Função para adicionar uma cidade ao banco de dados e atualizar a exibição
+//Paso 16: Función para agregar una ciudad a la base de datos y actualizar la vista
 async function createCardList ( data ) {
     try {
         await fetch( dataBase, {
@@ -228,13 +241,17 @@ async function createCardList ( data ) {
         console.error( "Error:", error );
     }
 }
-// Adicionar um evento para o botão de pesquisa
+
+// Paso 17: Agregar un evento para el botón de búsqueda
 const submitButton = document.getElementById( 'submitButton' );
 submitButton.addEventListener( 'click', handleInputCity );
 
-// Inicializar exibição das cidades ao carregar a página
+// Paso 18: Inicializar la vista de las ciudades al cargar la página
 document.addEventListener( 'DOMContentLoaded', fetchAndDisplayCities );
 
-
+// Paso 19: Exportar funciones necesarias
 export { createCard, displayCard };
+
+
+
 
